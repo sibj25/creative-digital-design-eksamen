@@ -1,0 +1,732 @@
+/*
+Theme Name: OceanWP Child Theme
+Theme URI: https://oceanwp.org/
+Author: simonhbjerborg
+Author URI: https://your-site.dk/
+Description: Child theme based on OceanWP.
+Version: 1.0.0
+Template: oceanwp
+*/
+
+.elementor-element elementor-element-1fc4c08 e-con-full e-flex e-con e-child {
+  width: 100%;
+  background: #DDBBC4;
+  padding: 65px 5%;
+  box-sizing: border-box
+}
+
+
+/* =========================================================
+   MIKKELLER AIRLINES – BOARDING PASS SLIDER (2 billeder pr. øl)
+   Indsæt nederst i child themets style.css
+   ========================================================= */
+
+.mk-slider {
+  --mk-ink: #111;
+  --mk-speed: 1.2s;        /* hvor hurtigt panelet glider frem */
+  --mk-slide-speed: 1s;    /* hvor hurtigt karrusellen skifter øl */
+  --mk-card-w: 440px;    /* bredde på kort-billedet */
+  --mk-panel-w: 520px;   /* bredde på kort/info-billedet */
+
+  position: relative !important;
+  display: block !important;
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  padding: 20px 0 30px !important;
+  overflow: hidden !important;
+}
+.mk-slider .e-con,
+.mk-slider .e-con-inner { gap: 0 !important; --gap: 0px; padding: 0 !important; min-height: 0 !important; }
+
+/* ---------- Slides: kun den aktive vises ---------- */
+.mk-slider .mk-slide {
+  position: relative !important;
+  display: block !important;
+  height: 720px;
+  width: 100% !important;
+  max-width: none !important;
+}
+body:not(.elementor-editor-active) .mk-slider .mk-slide:not(.is-active) { display: none !important; }
+
+.mk-slider .mk-card img,
+.mk-slider .mk-panel img {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-width: none !important;
+}
+
+/* ---------- Kortet: starter i midten ---------- */
+.mk-slider .mk-card {
+  position: absolute !important;
+  top: 0;
+  left: 50%;
+  width: var(--mk-card-w) !important;
+  max-width: none !important;
+  z-index: 2;
+  transform: translateX(-50%);
+  transition: transform var(--mk-speed) cubic-bezier(.65,0,.35,1);
+}
+.mk-slider.is-open .mk-card { transform: translateX(calc(-50% - 250px)); }
+
+/* ---------- Panelet: gemmer sig bag kortet og glider ud ---------- */
+.mk-slider .mk-panel {
+  position: absolute !important;
+  top: 130px;
+  left: 50%;
+  width: var(--mk-panel-w) !important;
+  max-width: none !important;
+  display: block !important;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) scale(.92);
+  transition: transform var(--mk-speed) cubic-bezier(.65,0,.35,1), opacity .4s ease;
+}
+.mk-slider.is-open .mk-panel {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(calc(-50% + 215px)) scale(1);
+}
+
+/* ---------- Karrusel: skift mellem øl ---------- */
+.mk-slider .mk-slide.is-leaving {
+  position: absolute !important;
+  z-index: 0;
+}
+.mk-slider .mk-slide.out-left   { animation: mk-out-left  var(--mk-slide-speed) cubic-bezier(.65,0,.35,1) both; }
+.mk-slider .mk-slide.out-right  { animation: mk-out-right var(--mk-slide-speed) cubic-bezier(.65,0,.35,1) both; }
+.mk-slider .mk-slide.in-right   { animation: mk-in-right  var(--mk-slide-speed) cubic-bezier(.65,0,.35,1) both; }
+.mk-slider .mk-slide.in-left    { animation: mk-in-left   var(--mk-slide-speed) cubic-bezier(.65,0,.35,1) both; }
+@keyframes mk-out-left  { to   { translate: -100% 0; } }
+@keyframes mk-out-right { to   { translate:  100% 0; } }
+@keyframes mk-in-right  { from { translate:  100% 0; } }
+@keyframes mk-in-left   { from { translate: -100% 0; } }
+
+/* sørg for at intet skærer billederne af */
+.mk-slider .mk-slide,
+.mk-slider .mk-panel,
+.mk-slider .mk-card,
+.mk-slider .elementor-widget-container { overflow: visible !important; }
+.mk-slider .mk-card img,
+.mk-slider .mk-panel img { object-fit: contain !important; aspect-ratio: auto !important; }
+
+/* ---------- Read more-knap (valgfri, læg den i mk-panel under billedet) ---------- */
+.mk-slider .mk-btn { margin-top: 24px; text-align: center; }
+.mk-slider .mk-btn :is(.elementor-button, a, button) {
+  display: inline-block;
+  min-width: 230px;
+  padding: 12px 20px;
+  background: var(--mk-ink);
+  color: #fff;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border-radius: 40px 34px 38px 30px;
+  transition: transform .2s ease;
+}
+.mk-slider .mk-btn :is(.elementor-button, a, button):hover { transform: scale(1.05); color: #fff; }
+
+/* ---------- Pile ---------- */
+.mk-slider .mk-prev,
+.mk-slider .mk-next {
+  position: absolute !important;
+  top: 360px;
+  z-index: 5;
+  width: auto !important;
+}
+.mk-slider .mk-prev { left: 0; }
+.mk-slider .mk-next { right: 0; }
+.mk-slider .mk-prev :is(.elementor-button, a, button),
+.mk-slider .mk-next :is(.elementor-button, a, button) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 60px;
+  height: 46px;
+  padding: 0;
+  background: var(--mk-ink);
+  color: #fff;
+  font-size: 26px;
+  line-height: 1;
+  border-radius: 999px;
+  transition: transform .2s ease;
+}
+.mk-slider .mk-prev .elementor-button-content-wrapper,
+.mk-slider .mk-next .elementor-button-content-wrapper {
+  display: flex; align-items: center; justify-content: center; gap: 0;
+}
+.mk-slider .mk-prev :is(.elementor-button, a, button):hover,
+.mk-slider .mk-next :is(.elementor-button, a, button):hover { transform: scale(1.1); }
+
+/* ---------- Prikker (laves af JS) ---------- */
+.mk-slider .mk-dots { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+.mk-slider .mk-dot {
+  width: 12px; height: 12px; padding: 0;
+  border: 2px solid var(--mk-ink);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+.mk-slider .mk-dot.is-active { background: var(--mk-ink); }
+
+/* ---------- I Elementor-editoren: alle øl vises åbne under hinanden ---------- */
+.elementor-editor-active .mk-slider .mk-slide { margin-bottom: 60px; }
+.elementor-editor-active .mk-slider .mk-card  { transform: translateX(calc(-50% - 250px)); }
+.elementor-editor-active .mk-slider .mk-panel { opacity: 1; pointer-events: auto; transform: translateX(calc(-50% + 215px)); }
+
+/* ---------- Tablet / mobil: panelet glider ned under kortet ---------- */
+@media (max-width: 980px) {
+  .mk-slider { padding: 10px 12px 30px !important; }
+  .mk-slider .mk-slide {
+    height: auto;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+  }
+  .mk-slider .mk-card,
+  .mk-slider.is-open .mk-card,
+  .elementor-editor-active .mk-slider .mk-card {
+    position: relative !important;
+    top: auto; left: auto;
+    order: 1;
+    width: min(var(--mk-card-w), 100%) !important;
+    transform: none;
+  }
+  .mk-slider .mk-panel {
+    position: relative !important;
+    top: auto; left: auto;
+    order: 2;
+    width: min(var(--mk-card-w), 100%) !important;
+    margin-top: -20px !important;
+    transform: translateY(-140px);
+  }
+  .mk-slider.is-open .mk-panel,
+  .elementor-editor-active .mk-slider .mk-panel { transform: translateY(0); }
+  .mk-slider .mk-prev, .mk-slider .mk-next { top: 260px; }
+  .mk-slider .mk-prev :is(.elementor-button, a, button),
+  .mk-slider .mk-next :is(.elementor-button, a, button) { width: 50px; height: 40px; font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mk-slider { --mk-speed: .01s; }
+}
+
+
+/* =========================================================
+   MIKKELLER AIRLINES – KORT MED FLAG (Leaflet)
+   Indsæt nederst i child themets style.css
+   I Elementor: én tom Container med CSS-klassen  mkf
+   ========================================================= */
+
+.mkf {
+  display: block !important;
+  width: 100% !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  background: #292D89;
+  border: 2px solid #625FF8;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* Logo-bar */
+.mkf .mkf-logo {
+  background: #625FF8;
+  padding: 8px 14px 7px;
+  line-height: 1;
+  color: #fff;
+}
+.mkf .mkf-logo-name {
+  font-family: monospace;
+  font-size: 19px;
+  font-weight: bold;
+  letter-spacing: -1px;
+}
+.mkf .mkf-logo-sub {
+  font-family: monospace;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+/* Tre kolonner */
+.mkf .mkf-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 20px 14px 22px;
+}
+.mkf .mkf-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 7px;
+}
+.mkf .mkf-label {
+  color: #FF9BD4;
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: 1.5px;
+}
+.mkf .mkf-value {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Kortet */
+.mkf .mkf-map {
+  width: calc(100% - 28px);
+  height: 320px;
+  margin: 0 14px 14px;
+  z-index: 1;
+}
+
+/* Flag */
+.mkf .mkf-flag { background: transparent; border: none; }
+.mkf .mkf-flag-marker { transition: transform .2s ease; }
+.mkf .mkf-flag-marker:hover { transform: scale(1.1); }
+.mkf .mkf-flag-marker img {
+  width: 45px !important;
+  height: 45px !important;
+  max-width: none !important;
+  object-fit: contain;
+  filter: drop-shadow(2px 3px 2px rgba(0,0,0,.3));
+}
+
+/* Mobil */
+@media (max-width: 480px) {
+  .mkf .mkf-details { gap: 5px; padding: 17px 10px 19px; }
+  .mkf .mkf-label { font-size: 9px; letter-spacing: 1px; }
+  .mkf .mkf-value { font-size: 15px; }
+  .mkf .mkf-logo { padding-left: 10px; }
+  .mkf .mkf-map { width: calc(100% - 20px); margin: 0 10px 10px; height: 300px; }
+}
+
+/* =========================================================
+   MIKKELLER AIRLINES – MENU (med burgermenu på mobil)
+   Menu-widgettet skal have CSS-klassen: mk-nav
+   ========================================================= */
+.mk-nav {
+  --nav-font: 'MIKKELLER', sans-serif;
+  --nav-ink: #111;
+  --nav-bg: #F6F2E8;            /* baggrund på mobilmenuen */
+}
+
+/* fjern prikker og indryk */
+.mk-nav ul { list-style: none; margin: 0; padding: 0; }
+
+/* hovedmenuen på én linje */
+.mk-nav ul:not(.sub-menu) {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 60px;
+}
+.mk-nav li { position: relative; }
+
+.mk-nav a {
+  font-family: var(--nav-font);
+  font-size: 32px;
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  color: var(--nav-ink);
+  text-decoration: none;
+  transition: opacity .2s ease;
+}
+.mk-nav a:hover { opacity: .6; }
+
+/* dropdown under LOCATIONS */
+.mk-nav .sub-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 100;
+  min-width: 220px;
+  padding: 14px 0 0 30px;
+  list-style: disc;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-30%, 8px);
+  transition: opacity .25s ease, transform .25s ease, visibility .25s;
+}
+.mk-nav .sub-menu li { margin: 4px 0; }
+.mk-nav .sub-menu a { font-size: 14px; }
+
+.mk-nav li:hover > .sub-menu,
+.mk-nav li:focus-within > .sub-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-30%, 0);
+}
+
+/* ---------- Burger-knappen (laves af JS) ---------- */
+.mk-nav .mk-burger { display: none; }
+
+/* ---------- Mobil ---------- */
+@media (max-width: 1024px) {
+
+  /* knappen */
+  .mk-nav .mk-burger {
+    position: relative;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    padding: 0 8px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .mk-nav .mk-burger span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    border-radius: 3px;
+    background: var(--nav-ink);
+    transition: transform .3s ease, opacity .3s ease;
+  }
+  /* bliver til et kryds, når menuen er åben */
+  .mk-nav.is-open .mk-burger span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+  .mk-nav.is-open .mk-burger span:nth-child(2) { opacity: 0; }
+  .mk-nav.is-open .mk-burger span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+  /* menuen fylder hele skærmen */
+  .mk-nav ul:not(.sub-menu) {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    flex-direction: column;
+    justify-content: center;
+    gap: 26px;
+    padding: 80px 20px 40px;
+    background: var(--nav-bg);
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: opacity .35s ease, transform .35s ease, visibility .35s;
+  }
+  .mk-nav.is-open ul:not(.sub-menu) {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .mk-nav li { text-align: center; }
+  .mk-nav a { font-size: 30px; letter-spacing: .2em; }
+
+  /* landene under LOCATIONS vises altid i mobilmenuen */
+  .mk-nav .sub-menu,
+  .mk-nav li:hover > .sub-menu,
+  .mk-nav li:focus-within > .sub-menu {
+    position: static;
+    min-width: 0;
+    padding: 10px 0 0;
+    list-style: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .mk-nav .sub-menu li { margin: 6px 0; }
+  .mk-nav .sub-menu a { font-size: 20px; opacity: .75; }
+}
+
+/* siden kan ikke scrolle, mens menuen er åben */
+body.mk-nav-lock { overflow: hidden; }
+
+/* =========================================================
+   MIKKELLER AIRLINES – VIDEOER SOM FLYVINDUER
+   Containeren med videoerne:  mk-windows
+   Hvert Video-widget:          mk-window
+   ========================================================= */
+
+.mk-windows {
+  --win-pink: #D0AFB5;      /* baggrund i sektionen og bag videoen */
+  --win-ink: #111;          /* sorte kanter */
+  --win-frame: 18px;        /* tykkelse på den hvide ramme */
+  --win-w: 300px;           /* bredde på ét vindue */
+
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 60px 20px 80px !important;
+  background: var(--win-pink);
+}
+
+/* VIDEOS-overskriften (Heading-widget inde i mk-windows, valgfrit) */
+.mk-windows .elementor-widget-heading {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* ---------- Ét vindue ---------- */
+.mk-windows .mk-window {
+  position: relative;
+  flex: 0 1 var(--win-w) !important;
+  width: var(--win-w) !important;
+  max-width: calc(20% - 10px);
+  aspect-ratio: 33 / 43;
+  padding: var(--win-frame) !important;
+  background: #fff;
+  border: 4px solid var(--win-ink);
+  border-radius: 46% / 36%;
+  box-sizing: border-box;
+  transition: transform .3s ease;
+}
+.mk-windows .mk-window:hover { transform: translateY(-6px) rotate(-1deg); }
+
+.mk-windows .mk-window > .elementor-widget-container {
+  position: static !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* selve "glasset" med videoen – låst fast inde i den hvide ramme */
+.mk-windows .mk-window .elementor-wrapper {
+  position: absolute !important;
+  inset: var(--win-frame) !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  aspect-ratio: auto !important;
+  padding: 0 !important;
+  overflow: hidden;
+  background: var(--win-pink);
+  border: 4px solid var(--win-ink);
+  border-radius: 44% / 34%;
+  box-sizing: border-box;
+}
+
+/* Upload-video (Self Hosted): fylder vinduet */
+.mk-windows .mk-window video {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+/* YouTube/Vimeo: beskæres i siderne, så den fylder vinduet */
+.mk-windows .mk-window iframe {
+  position: absolute !important;
+  top: 0;
+  left: 50%;
+  height: 100% !important;
+  width: auto !important;
+  max-width: none !important;
+  aspect-ratio: 16 / 9;
+  transform: translateX(-50%);
+  border: 0;
+}
+
+/* Billede-overlay (hvis slået til i Elementor) */
+.mk-windows .mk-window .elementor-custom-embed-image-overlay {
+  position: absolute;
+  inset: 0;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* Play-knap: sort cirkel med hvid trekant */
+.mk-windows .mk-window .elementor-custom-embed-play {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--win-ink);
+  opacity: 1 !important;
+}
+.mk-windows .mk-window .elementor-custom-embed-play i,
+.mk-windows .mk-window .elementor-custom-embed-play svg {
+  color: #fff !important;
+  fill: #fff !important;
+  font-size: 28px !important;
+  width: 28px !important;
+  height: 28px !important;
+  margin-left: 4px;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* ---------- Tablet og mobil ---------- */
+@media (max-width: 1024px) {
+  .mk-windows .mk-window { max-width: calc(33.333% - 12px); }
+}
+@media (max-width: 767px) {
+  .mk-windows { --win-frame: 12px; gap: 10px !important; padding: 40px 12px 50px !important; }
+  .mk-windows .mk-window { max-width: calc(50% - 6px); border-width: 3px; }
+  .mk-windows .mk-window .elementor-wrapper { border-width: 3px; }
+  .mk-windows .mk-window .elementor-custom-embed-play { width: 48px; height: 48px; }
+}
+
+/* =========================================================
+   MIKKELLER AIRLINES – MERCH-KARRUSEL (enkel version)
+   Rører ikke ved designet inde i dine slides – får dem kun til at glide.
+   I Elementor giver du KUN hver slide klassen:  mkm-slide
+   (JS'en laver selv indpakning, pile og prikker)
+   ========================================================= */
+
+.mkm {
+  --mkm-ink: #111;
+  --mkm-speed: .7s;
+
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 100px 50px !important;
+  box-sizing: border-box;
+}
+
+/* "Vinduet": kun den aktive slide kan ses */
+.mkm .mkm-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Sporet: alle slides på én lang række */
+.mkm .mkm-track {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  transition: transform var(--mkm-speed) cubic-bezier(.65,0,.35,1);
+}
+
+/* Hver slide fylder hele bredden (resten af dit design bevares) */
+.mkm .mkm-slide {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+/* ---------- Pile ---------- */
+.mkm .mkm-prev,
+.mkm .mkm-next {
+  position: absolute !important;
+  top: 45%;
+  z-index: 5;
+  transform: translateY(-50%);
+}
+.mkm .mkm-prev { left: 10px; }
+.mkm .mkm-next { right: 10px; }
+.mkm .mkm-prev button,
+.mkm .mkm-next button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--mkm-ink);
+  color: #fff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+.mkm .mkm-prev button:hover,
+.mkm .mkm-next button:hover { transform: scale(1.08); background: var(--mkm-ink); }
+.mkm .mkm-prev button:focus-visible,
+.mkm .mkm-next button:focus-visible { outline: 3px solid #5C5CEF; outline-offset: 3px; }
+
+/* ---------- Prikker (laves af JS) ---------- */
+.mkm .mkm-dots { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+.mkm .mkm-dot {
+  width: 12px; height: 12px; padding: 0;
+  border: 2px solid var(--mkm-ink);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+.mkm .mkm-dot.is-active { background: var(--mkm-ink); }
+
+/* ---------- Mobil ---------- */
+@media (max-width: 767px) {
+  .mkm { padding: 0 0 40px !important; }
+  .mkm .mkm-prev, .mkm .mkm-next { top: 120px; }
+  .mkm .mkm-prev { left: 4px; }
+  .mkm .mkm-next { right: 4px; }
+  .mkm .mkm-prev button,
+  .mkm .mkm-next button { width: 50px; height: 40px; font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mkm { --mkm-speed: .01s; }
+}
+
+/* Flyvinduer på mobil: to og to */
+@media (max-width: 767px) {
+  .mk-windows {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .mk-windows .mk-window {
+    flex: 0 0 calc(50% - 6px) !important;
+    width: calc(50% - 6px) !important;
+    max-width: calc(50% - 6px) !important;
+  }
+}
+
+/* Baggrundsfarve på hele siden */
+body,
+#outer-wrap,
+#wrap,
+#main,
+#content-wrap {
+  background-color: #F6F2E8 !important;
+}
+
+/* Kortet: luft i siderne og højere kort */
+.mkf {
+  max-width: none !important;
+  width: calc(100% - 80px) !important;   /* 40 px luft i hver side */
+  margin: 60px auto !important;
+  border-radius: 24px;
+}
+.mkf .mkf-map {
+  height: 600px;                  /* højere kort */
+}
+
+/* Mobil: lidt luft i siderne */
+@media (max-width: 767px) {
+  .mkf {
+    width: calc(100% - 32px) !important;
+    margin: 40px auto !important;
+    border-radius: 16px;
+  }
+  .mkf .mkf-map { height: 320px; }
+}
+
